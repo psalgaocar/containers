@@ -2,7 +2,7 @@ name: Deployment (Container)
 on:
   push:
     branches:
-      - main
+      - master
       - dev
 env:
   CACHE_KEY: node-deps
@@ -11,6 +11,9 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    container: # the runner will have a ubuntu OS and the container 
+               # where the tests would be run will be node
+      image: node:latest
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.ntrwp.mongodb.net
