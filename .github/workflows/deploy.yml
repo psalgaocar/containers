@@ -11,13 +11,15 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container: # the runner will have a ubuntu OS and the container 
+    #container: # the runner will have a ubuntu OS and the container 
                # where the tests would be run will be node
-      image: node:latest
+      #image: node:latest
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb # this is the service name which github actions 
-                                       # will connect to automatically and run the local tests
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017 
+      # this is the service name which github actions 
+      # will connect to automatically and run the local tests
+      # the above runs in the mongodb in the runner
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       #MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
@@ -26,6 +28,8 @@ jobs:
     services:
       mongodb:
         image: mongo
+        ports:
+          - 27017:27017 # forward port in the base image to connect to the container
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
